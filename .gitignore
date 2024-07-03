@@ -1,0 +1,14 @@
+.sfdx*
+**/.sfdx/tools/**
+**/.sfdx/typings/**
+**/.sfdx/indexes/**
+.sfdx/tools/apex.db
+.sfdx/tools/apex.db
+.sfdx/indexes/lwc/custom-components.json
+*.db
+*.json
+.sfdx/typings/lwc/apex/BoxElementsController.d.ts
+.sfdx/typings/lwc/preview.resource.d.ts
+.localdevserver
+
+.sfdx/sfdx-config.json

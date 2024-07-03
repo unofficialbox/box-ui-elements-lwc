@@ -1,0 +1,72 @@
+<apex:page lightningStylesheets="true" controller="BoxElementsController">
+    <apex:slds />
+    <apex:includeScript value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/explorer.js')}" />
+    <apex:stylesheet value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/explorer.css')}" />
+    
+    <apex:includeScript value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/preview.js')}" />
+    <apex:stylesheet value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/preview.css')}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.annotations, '/annotations.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.annotations, '/annotations.css')}" />
+    <body style="height: 515px" onload="init()" />       
+
+
+    <div>
+        
+    </div>
+    
+    <script type="text/javascript">
+        function init() {
+            const folderId = '{!$CurrentPage.parameters.folderId}';
+            const downscopedToken = '{!$CurrentPage.parameters.downscopedToken}';
+            // Instantiate Content Explorer UI Element
+            const explorerContainer = document.querySelector('#explorer-container')
+            const explorer = new Box.ContentExplorer();
+            const logoUrl = "{!URLFOR($Resource.logos, '/box.png')}";
+            const boxAnnotations = new BoxAnnotations();
+            explorer.show(folderId, downscopedToken, {
+                container: explorerContainer,
+                logoUrl: logoUrl,
+                autoFocus: true,
+                canPreview: true,
+                canDownload: true,
+                canUpload: true,
+                canCreateNewFolder: true,
+                canDelete: true,
+                canRename: true,
+                canShare: true,
+                canSetShareAccess: true,
+                contentPreviewProps: {
+                    boxAnnotations: boxAnnotations,
+                    showAnnotations: true,
+                    showDownload: true,
+                    enableAnnotationsDiscoverability: true,
+                    enableAnnotationsImageDiscoverability: true,
+                    showAnnotationsControls: true,
+                    showAnnotationsDrawingCreate: true,
+                    contentSidebarProps: {
+                        detailsSidebarProps: {
+                            hasAccessStats: true,
+                            hasClassification: true,
+                            hasNotices: true,
+                            hasProperties: true,
+                            hasRetentionPolicy: true,
+                            hasVersions: true,
+                        },
+                        hasActivityFeed: true,
+                        hasMetadata: true,
+                        hasSkills: true,
+                        hasVersions: true,
+                        features: {
+                            activityFeed: {
+                                annotations: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</apex:page>

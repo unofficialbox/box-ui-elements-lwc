@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Custom Content Preview </masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightning__FlowScreen</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="elementTitle" label="Title" type="String" default="Box Content Preview"/>
+            <property name="height" label="Height" type="String" default="625px"/>
+            <property name="fileId" label="File ID" type="String" />
+            <property
+                name="scopes"
+                type="String"
+                label="Box Scopes"
+                description="Pass in the scopes to be used with the Box UI Element"
+                default="base_preview"
+            />
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="elementTitle" label="Title" type="String" default="Box Content Preview"/>
+            <property name="height" label="Height" type="String" default="625px"/>
+            <property
+                name="fileId"
+                type="String"
+                label="Box File Id"
+            />
+            <property
+                name="scopes"
+                type="String"
+                label="Box Scopes"
+                description="Pass in the scopes to be used with the Box UI Element"
+                default="base_preview"
+            />
+        </targetConfig>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="elementTitle" label="Title" type="String" default="Box Content Preview"/>
+            <property name="height" label="Height" type="String" default="625px"/>
+            <property
+                name="fileId"
+                type="String"
+                label="Box File Id"
+            />
+            <property
+                name="scopes"
+                type="String"
+                label="Box Scopes"
+                description="Pass in the scopes to be used with the Box UI Element"
+                default="base_preview"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

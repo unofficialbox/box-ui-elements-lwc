@@ -1,0 +1,58 @@
+<apex:page lightningStylesheets="true" controller="BoxPreviewController">
+    <apex:slds />
+    <apex:includeScript value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/explorer.js')}" />
+    <apex:stylesheet value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/explorer.css')}" />
+    
+    <apex:includeScript value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/preview.js')}" />
+    <apex:stylesheet value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/preview.css')}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.annotations, '/annotations.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.annotations, '/annotations.css')}" />
+    <body style="height: 615px" onload="init()" />       
+    
+    <script type="text/javascript">
+        function init() {
+            const fileId = '{!$CurrentPage.parameters.fileId}';
+            const downscopedToken = '{!$CurrentPage.parameters.downscopedToken}';
+            // Instantiate Content Preview UI Element
+            const previewContainer = document.querySelector('#preview-container')
+            const preview = new Box.ContentPreview();
+            const logoUrl = "{!URLFOR($Resource.logos, '/box.png')}";
+            const boxAnnotations = new BoxAnnotations();
+            preview.show(fileId, downscopedToken, {
+                container: previewContainer,
+                logoUrl: logoUrl,
+                boxAnnotations: boxAnnotations,
+                showAnnotations: true,
+                showDownload: true,
+                hasHeader: true,
+                enableAnnotationsDiscoverability: true,
+                enableAnnotationsImageDiscoverability: true,
+                showAnnotationsControls: true,
+                showAnnotationsDrawingCreate: true,
+                contentSidebarProps: {
+                    detailsSidebarProps: {
+                        hasAccessStats: true,
+                        hasClassification: true,
+                        hasNotices: true,
+                        hasProperties: true,
+                        hasRetentionPolicy: true,
+                        hasVersions: true,
+                    },
+                    hasActivityFeed: true,
+                    hasMetadata: true,
+                    hasSkills: true,
+                    hasVersions: true,
+                    features: {
+                        activityFeed: {
+                            annotations: {
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+                
+            });
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,62 @@
+<apex:page lightningStylesheets="true" controller="BoxElementsController">
+    <apex:slds />
+    
+    <apex:includeScript value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/uploader.js')}" />
+    <apex:stylesheet value="{!URLFOR('https://cdn01.boxcdn.net/platform/elements/20.0.0/en-US/uploader.css')}" />
+    <body style="height: 415px" onload="init()" />       
+    
+    <script type="text/javascript">
+        let uploader = new Box.ContentUploader();
+
+        function init() {
+            const folderId = '{!$CurrentPage.parameters.folderId}';
+            const downscopedToken = '{!$CurrentPage.parameters.downscopedToken}';
+
+            // Instantiate Content Uploader UI Element
+            const uploaderContainer = document.querySelector('#uploader-container')
+            const logoUrl = "{!URLFOR($Resource.logos, '/box.png')}";
+            
+            uploader.show(folderId, downscopedToken, {
+                container: uploaderContainer,
+                logoUrl: logoUrl
+                // requestInterceptor: filterFileTypes,
+                // responseInterceptor: handleError
+            });
+        }
+        function filterFileTypes(config) {
+            console.log('Found config: ', config);
+            
+            const method = config.method;
+            if (method === 'options') {
+                const fileName = config.data.name;
+                console.log('Found file: ', fileName);
+
+                const fileExtension = fileName.split(".").pop();
+                console.log('With extension: ', fileExtension);
+                
+                const allowedExtensions =  ['pdf','docx', 'xlsx'];
+                console.log('Attempting to block file types: ', config)
+                if(!allowedExtensions.includes(fileExtension)) {
+                    config.method='get';
+                    // This is just an invalid URL that goes nowhere and will throw 404 error
+                    config.url = 'https://api.box.com/2.0/files/badextension';
+                }
+            }
+            
+            return config;
+        }
+
+        function handleError(config) {
+            console.log('Found response config: ', config);
+            const ltnOrigin = '{!ltnOrigin}';
+            console.log('Found ltn origin: ', ltnOrigin);
+            const message = {
+                title: 'Failed to Upload',
+                errorMessage: 'File type not allowed!',
+                variant: 'error'
+            };
+            
+            window.parent.postMessage(message, ltnOrigin);
+        }
+    </script>
+</apex:page>
